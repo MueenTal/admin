@@ -157,6 +157,7 @@ class _AddUserState extends State<AddDilivery> {
                                           ),
                                         ),
                                         onPressed: () async {
+                                          // التحقق من المتغيرات كلها معبئة ام لا
                                           if (_name.text.isEmpty ||
                                               _email.text.isEmpty ||
                                               _password.text.isEmpty ||
@@ -175,13 +176,14 @@ class _AddUserState extends State<AddDilivery> {
                                               setState(() {
                                                 load = true;
                                               });
+                                              //انشاء حساب بواسطة الايميل كلمة المرور
                                               UserCredential userCredential =
                                                   await FirebaseAuth.instance
                                                       .createUserWithEmailAndPassword(
                                                           email: _email.text,
                                                           password:
                                                               _password.text);
-
+                                              // اضافة معلومات عامل التوصيل الى جدول عامل التوصيل
                                               await FirebaseFirestore.instance
                                                   .collection('dilvery')
                                                   .doc(userCredential.user.uid)
@@ -193,6 +195,7 @@ class _AddUserState extends State<AddDilivery> {
                                                     'userId':
                                                         userCredential.user.uid
                                                   }));
+                                              // تغيير الاسم الخاص به الى دليفيري ليتم التحقق عند الدخول بالتطبيق الخاص به
                                               await userCredential.user
                                                   .updateProfile(
                                                       displayName: "dilvery");
@@ -217,6 +220,7 @@ class _AddUserState extends State<AddDilivery> {
                                                 load = false;
                                               });
                                               print(e);
+                                              // طباعة الاخطاء الواردة من الفير بيز
 
                                               if (e
                                                   .toString()

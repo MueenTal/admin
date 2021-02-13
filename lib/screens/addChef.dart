@@ -158,12 +158,14 @@ class _AddUserState extends State<AddChef> {
                                               setState(() {
                                                 load = true;
                                               });
+                                              // انشاء الحساب بواسطة الايميل وكلمة المرور
                                               UserCredential userCredential =
                                                   await FirebaseAuth.instance
                                                       .createUserWithEmailAndPassword(
                                                           email: _email.text,
                                                           password:
                                                               _password.text);
+                                              // اضافة المعلومات الخاصة بالشيف الى جدول الشيفات
 
                                               await FirebaseFirestore.instance
                                                   .collection('chefs')
@@ -175,6 +177,8 @@ class _AddUserState extends State<AddChef> {
                                                     'userId':
                                                         userCredential.user.uid
                                                   }));
+                                              // تغيير الاسم الخاص به الى شيف ليتم التحقق عند الدخول بالتطبيق الخاص به
+
                                               await userCredential.user
                                                   .updateProfile(
                                                       displayName: "chef");
@@ -198,6 +202,7 @@ class _AddUserState extends State<AddChef> {
                                                 load = false;
                                               });
                                               print(e);
+                                              // طباعة الاخطاء الواردة من الفير بيز
 
                                               if (e
                                                   .toString()

@@ -8,6 +8,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  // المتغيرات الخاصة بالايميل وكلمة المرور
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
 
@@ -102,6 +103,7 @@ class _LoginState extends State<Login> {
                                       ),
                                     ),
                                     onPressed: () {
+                                      // التحقق من اذا كانت الخانتان فارغات ام لا
                                       if (_email.text.isEmpty ||
                                           _password.text.isEmpty) {
                                         Fluttertoast.showToast(
@@ -113,6 +115,7 @@ class _LoginState extends State<Login> {
                                             backgroundColor: Colors.red,
                                             textColor: Colors.white,
                                             fontSize: 16.0);
+                                        // التحقق من المعلومات صحيحة
                                       } else if (_email.text ==
                                               "admin@admin.com" &&
                                           _password.text == "admin2021") {

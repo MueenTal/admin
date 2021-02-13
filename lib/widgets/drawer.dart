@@ -7,6 +7,7 @@ class Drawerr extends StatefulWidget {
   _DrawerrState createState() => _DrawerrState();
 }
 
+// القائمة الجانبية التي ستفتح من الجنب
 class _DrawerrState extends State<Drawerr> {
   @override
   Widget build(BuildContext context) {
