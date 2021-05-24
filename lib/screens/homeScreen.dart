@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             appBar: AppBar(
               centerTitle: true,
-              backgroundColor: Colors.lightBlue[800],
+              backgroundColor: Colors.orange,
               title: Text(
                 "الصفحة الرئيسية",
                 style: TextStyle(color: Colors.white),

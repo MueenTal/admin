@@ -49,7 +49,7 @@ class _AddUserState extends State<AddDilivery> {
                                 child: TextField(
                                     controller: _name,
                                     decoration: InputDecoration(
-                                      hintText: 'الرجاء ادخال الاسم الخاص بك  ',
+                                      hintText: 'الرجاء ادخال الاسم    ',
                                       labelText: 'الاسم',
                                       prefixIcon: Icon(Icons.person),
                                       enabledBorder: OutlineInputBorder(
@@ -65,7 +65,7 @@ class _AddUserState extends State<AddDilivery> {
                                 child: TextField(
                                     controller: _email,
                                     decoration: InputDecoration(
-                                      hintText: 'الرجاء ادخال الايميل الخاص بك',
+                                      hintText: 'الرجاء ادخال الايميل  ',
                                       labelText: 'الايميل',
                                       prefixIcon: Icon(Icons.email),
                                       enabledBorder: OutlineInputBorder(
@@ -99,8 +99,7 @@ class _AddUserState extends State<AddDilivery> {
                                     keyboardType: TextInputType.number,
                                     controller: _phone,
                                     decoration: InputDecoration(
-                                      hintText:
-                                          'الرجاء ادخال رقم الهاتف الخاص بك  ',
+                                      hintText: 'الرجاء ادخال رقم الهاتف    ',
                                       labelText: 'رقم الهاتف',
                                       prefixIcon: Icon(Icons.phone),
                                       enabledBorder: OutlineInputBorder(
@@ -116,9 +115,9 @@ class _AddUserState extends State<AddDilivery> {
                                 child: TextField(
                                     controller: _address,
                                     decoration: InputDecoration(
-                                      hintText: 'الرجاء ادخال المنطقة الخاص بك',
+                                      hintText: 'الرجاء ادخال المنطقة  ',
                                       labelText: 'المنطقة',
-                                      // prefixIcon: Icon(Icons.),
+                                      prefixIcon: Icon(Icons.place),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Colors.lightBlue, width: 3),

@@ -1,5 +1,6 @@
 import 'package:admin/screens/AddDilvery.dart';
 import 'package:admin/screens/addChef.dart';
+import 'package:admin/screens/ChefRecords.dart';
 import 'package:flutter/material.dart';
 
 class Drawerr extends StatefulWidget {
@@ -16,8 +17,8 @@ class _DrawerrState extends State<Drawerr> {
         DrawerHeader(
             decoration: BoxDecoration(
                 gradient: LinearGradient(colors: <Color>[
-              Colors.lightBlue[600],
-              Colors.lightBlue[700],
+              Colors.orange[400],
+              Colors.orange,
             ])),
             child: Container(
                 child: Column(
@@ -48,6 +49,10 @@ class _DrawerrState extends State<Drawerr> {
         CustomListTitle(Icons.add, "إضافة عامل توصيل", () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => AddDilivery()));
+        }),
+        CustomListTitle(Icons.person, "سجلات الطباخين", () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => TableWidget()));
         }),
         SizedBox(
           height: 50,
