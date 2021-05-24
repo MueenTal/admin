@@ -17,7 +17,7 @@ class _DrawerrState extends State<Drawerr> {
         DrawerHeader(
             decoration: BoxDecoration(
                 gradient: LinearGradient(colors: <Color>[
-              Colors.orange[400],
+              Colors.orange[300],
               Colors.orange,
             ])),
             child: Container(

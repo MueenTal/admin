@@ -24,7 +24,7 @@ class _AddUserState extends State<AddDilivery> {
             child: Scaffold(
                 appBar: AppBar(
                   centerTitle: true,
-                  backgroundColor: Colors.lightBlue[800],
+                  backgroundColor: Colors.orange,
                   title: Text(
                     "إضافة عامل توصيل",
                     style: TextStyle(color: Colors.white),
@@ -54,7 +54,7 @@ class _AddUserState extends State<AddDilivery> {
                                       prefixIcon: Icon(Icons.person),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                            color: Colors.lightBlue, width: 3),
+                                            color: Colors.black, width: 3),
                                         borderRadius:
                                             BorderRadius.circular((25)),
                                       ),
@@ -70,7 +70,7 @@ class _AddUserState extends State<AddDilivery> {
                                       prefixIcon: Icon(Icons.email),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                            color: Colors.lightBlue, width: 3),
+                                            color: Colors.black, width: 3),
                                         borderRadius:
                                             BorderRadius.circular((25)),
                                       ),
@@ -87,7 +87,7 @@ class _AddUserState extends State<AddDilivery> {
                                       prefixIcon: Icon(Icons.vpn_key),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                            color: Colors.lightBlue, width: 3),
+                                            color: Colors.black, width: 3),
                                         borderRadius:
                                             BorderRadius.circular((25)),
                                       ),
@@ -104,7 +104,7 @@ class _AddUserState extends State<AddDilivery> {
                                       prefixIcon: Icon(Icons.phone),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                            color: Colors.lightBlue, width: 3),
+                                            color: Colors.black, width: 3),
                                         borderRadius:
                                             BorderRadius.circular((25)),
                                       ),
@@ -120,7 +120,7 @@ class _AddUserState extends State<AddDilivery> {
                                       prefixIcon: Icon(Icons.place),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                            color: Colors.lightBlue, width: 3),
+                                            color: Colors.black, width: 3),
                                         borderRadius:
                                             BorderRadius.circular((25)),
                                       ),
@@ -142,11 +142,11 @@ class _AddUserState extends State<AddDilivery> {
                                             begin: Alignment.topCenter,
                                             end: Alignment.bottomCenter,
                                             colors: [
-                                              Colors.blue[400],
-                                              Colors.blue[600],
+                                              Colors.orange[300],
+                                              Colors.orange[500],
                                             ])),
                                     child: FlatButton(
-                                        splashColor: Colors.blueAccent,
+                                        splashColor: Colors.orange[200],
                                         child: Text(
                                           "إضافة ",
                                           style: TextStyle(
