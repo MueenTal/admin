@@ -1,21 +1,21 @@
-import 'package:admin/providers/ChefRecordsProvider.dart';
+import 'package:admin/providers/deleviryRecordsProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ChTable extends StatefulWidget {
-  ChTable({Key key}) : super(key: key);
+class DTable extends StatefulWidget {
+  DTable({Key key}) : super(key: key);
 
   @override
-  _ChTableState createState() => _ChTableState();
+  _DTableState createState() => _DTableState();
 }
 
-class _ChTableState extends State<ChTable> {
+class _DTableState extends State<DTable> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
         textDirection: TextDirection.rtl,
-        child:
-            Consumer<ChefRecordsProvider>(builder: (context, provider, child) {
+        child: Consumer<deleviryRecordsProvider>(
+            builder: (context, provider, child) {
           if (provider.isloading) {
             return Center(
               child: CircularProgressIndicator(),
@@ -26,7 +26,7 @@ class _ChTableState extends State<ChTable> {
                 centerTitle: true,
                 backgroundColor: Colors.orange,
                 title: Text(
-                  "سجلات الطباخين ",
+                  "سجلات عمال التوصيل ",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -45,6 +45,7 @@ class _ChTableState extends State<ChTable> {
                           3: FixedColumnWidth(100.0),
                           4: FixedColumnWidth(100.0),
                           5: FixedColumnWidth(100.0),
+                          6: FixedColumnWidth(100.0),
                         },
                         border: TableBorder.all(
                             color: Colors.orange,
@@ -75,6 +76,11 @@ class _ChTableState extends State<ChTable> {
                               )),
                               Center(
                                   child: Text(
+                                'المنطقة ',
+                                style: TextStyle(fontSize: 20),
+                              )),
+                              Center(
+                                  child: Text(
                                 'تعديل',
                                 style: TextStyle(fontSize: 20),
                               )),
@@ -91,6 +97,11 @@ class _ChTableState extends State<ChTable> {
                                   // child:Text(provider.DataMap[0]['userId'],
                                   child: Text(
                                 "jbv",
+                                style: TextStyle(fontSize: 18),
+                              )),
+                              Center(
+                                  child: Text(
+                                'B2',
                                 style: TextStyle(fontSize: 18),
                               )),
                               Center(

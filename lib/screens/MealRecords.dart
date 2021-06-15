@@ -1,21 +1,21 @@
-import 'package:admin/providers/ChefRecordsProvider.dart';
+import 'package:admin/providers/MealRecordsProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ChTable extends StatefulWidget {
-  ChTable({Key key}) : super(key: key);
+class MTable extends StatefulWidget {
+  MTable({Key key}) : super(key: key);
 
   @override
-  _ChTableState createState() => _ChTableState();
+  _MTableState createState() => _MTableState();
 }
 
-class _ChTableState extends State<ChTable> {
+class _MTableState extends State<MTable> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
         textDirection: TextDirection.rtl,
         child:
-            Consumer<ChefRecordsProvider>(builder: (context, provider, child) {
+            Consumer<MealRecordsProvider>(builder: (context, provider, child) {
           if (provider.isloading) {
             return Center(
               child: CircularProgressIndicator(),
@@ -26,7 +26,7 @@ class _ChTableState extends State<ChTable> {
                 centerTitle: true,
                 backgroundColor: Colors.orange,
                 title: Text(
-                  "سجلات الطباخين ",
+                  "سجلات الوجبات ",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -39,12 +39,9 @@ class _ChTableState extends State<ChTable> {
                     child: Card(
                       child: Table(
                         columnWidths: const <int, TableColumnWidth>{
-                          0: FixedColumnWidth(50.0),
+                          0: FixedColumnWidth(100.0),
                           1: FixedColumnWidth(100.0),
                           2: FixedColumnWidth(100.0),
-                          3: FixedColumnWidth(100.0),
-                          4: FixedColumnWidth(100.0),
-                          5: FixedColumnWidth(100.0),
                         },
                         border: TableBorder.all(
                             color: Colors.orange,
@@ -65,22 +62,7 @@ class _ChTableState extends State<ChTable> {
                               )),
                               Center(
                                   child: Text(
-                                'الهاتف',
-                                style: TextStyle(fontSize: 20),
-                              )),
-                              Center(
-                                  child: Text(
-                                'البريد الألكتروني',
-                                style: TextStyle(fontSize: 20),
-                              )),
-                              Center(
-                                  child: Text(
-                                'تعديل',
-                                style: TextStyle(fontSize: 20),
-                              )),
-                              Center(
-                                  child: Text(
-                                'حذف',
+                                'المكونات',
                                 style: TextStyle(fontSize: 20),
                               )),
                             ],
@@ -100,21 +82,9 @@ class _ChTableState extends State<ChTable> {
                               )),
                               Center(
                                   child: Text(
-                                'C2',
+                                'B2',
                                 style: TextStyle(fontSize: 18),
                               )),
-                              Center(
-                                  child: Text(
-                                'D2',
-                                style: TextStyle(fontSize: 18),
-                              )),
-                              Center(
-                                  child: IconButton(
-                                      icon: Icon(Icons.edit), onPressed: null)),
-                              Center(
-                                  child: IconButton(
-                                      icon: Icon(Icons.delete),
-                                      onPressed: null)),
                             ],
                           ),
                         ],

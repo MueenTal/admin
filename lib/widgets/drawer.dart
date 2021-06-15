@@ -1,6 +1,9 @@
 import 'package:admin/screens/AddDilvery.dart';
+import 'package:admin/screens/CustomerRecords.dart';
+import 'package:admin/screens/MealRecords.dart';
 import 'package:admin/screens/addChef.dart';
 import 'package:admin/screens/ChefRecords.dart';
+import 'package:admin/screens/deleviryRecords.dart';
 import 'package:flutter/material.dart';
 
 class Drawerr extends StatefulWidget {
@@ -51,8 +54,20 @@ class _DrawerrState extends State<Drawerr> {
               builder: (BuildContext context) => AddDilivery()));
         }),
         CustomListTitle(Icons.person, "سجلات الطباخين", () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => TableWidget()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (BuildContext context) => ChTable()));
+        }),
+        CustomListTitle(Icons.person, "سجلات عمال التوصيل", () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (BuildContext context) => DTable()));
+        }),
+        CustomListTitle(Icons.person, "سجلات الزبائن", () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (BuildContext context) => CTable()));
+        }),
+        CustomListTitle(Icons.person, "سجلات الوجبات", () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (BuildContext context) => MTable()));
         }),
         SizedBox(
           height: 50,

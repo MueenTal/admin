@@ -1,21 +1,21 @@
-import 'package:admin/providers/ChefRecordsProvider.dart';
+import 'package:admin/providers/CustomerRecordsProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ChTable extends StatefulWidget {
-  ChTable({Key key}) : super(key: key);
+class CTable extends StatefulWidget {
+  CTable({Key key}) : super(key: key);
 
   @override
-  _ChTableState createState() => _ChTableState();
+  _CTableState createState() => _CTableState();
 }
 
-class _ChTableState extends State<ChTable> {
+class _CTableState extends State<CTable> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
         textDirection: TextDirection.rtl,
-        child:
-            Consumer<ChefRecordsProvider>(builder: (context, provider, child) {
+        child: Consumer<CustomerRecordsProvider>(
+            builder: (context, provider, child) {
           if (provider.isloading) {
             return Center(
               child: CircularProgressIndicator(),
@@ -26,7 +26,7 @@ class _ChTableState extends State<ChTable> {
                 centerTitle: true,
                 backgroundColor: Colors.orange,
                 title: Text(
-                  "سجلات الطباخين ",
+                  "سجلات الزبائن ",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -44,7 +44,6 @@ class _ChTableState extends State<ChTable> {
                           2: FixedColumnWidth(100.0),
                           3: FixedColumnWidth(100.0),
                           4: FixedColumnWidth(100.0),
-                          5: FixedColumnWidth(100.0),
                         },
                         border: TableBorder.all(
                             color: Colors.orange,
@@ -75,12 +74,7 @@ class _ChTableState extends State<ChTable> {
                               )),
                               Center(
                                   child: Text(
-                                'تعديل',
-                                style: TextStyle(fontSize: 20),
-                              )),
-                              Center(
-                                  child: Text(
-                                'حذف',
+                                'العنوان ',
                                 style: TextStyle(fontSize: 20),
                               )),
                             ],
@@ -100,6 +94,11 @@ class _ChTableState extends State<ChTable> {
                               )),
                               Center(
                                   child: Text(
+                                'B2',
+                                style: TextStyle(fontSize: 18),
+                              )),
+                              Center(
+                                  child: Text(
                                 'C2',
                                 style: TextStyle(fontSize: 18),
                               )),
@@ -108,13 +107,6 @@ class _ChTableState extends State<ChTable> {
                                 'D2',
                                 style: TextStyle(fontSize: 18),
                               )),
-                              Center(
-                                  child: IconButton(
-                                      icon: Icon(Icons.edit), onPressed: null)),
-                              Center(
-                                  child: IconButton(
-                                      icon: Icon(Icons.delete),
-                                      onPressed: null)),
                             ],
                           ),
                         ],
