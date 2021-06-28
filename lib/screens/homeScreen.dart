@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('card')
-                    .where('confirm', isEqualTo: true).where('todel',isEqualTo: false)
+                    .where('confirm', isEqualTo: true).where('todel',isEqualTo: false).where('Prepare',isEqualTo: false)
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
