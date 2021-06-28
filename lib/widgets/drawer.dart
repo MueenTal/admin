@@ -4,7 +4,10 @@ import 'package:admin/screens/MealRecords.dart';
 import 'package:admin/screens/addChef.dart';
 import 'package:admin/screens/ChefRecords.dart';
 import 'package:admin/screens/deleviryRecords.dart';
+import 'package:admin/screens/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Drawerr extends StatefulWidget {
   @override
@@ -55,20 +58,36 @@ class _DrawerrState extends State<Drawerr> {
         }),
         CustomListTitle(Icons.person, "سجلات الطباخين", () {
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (BuildContext context) => ChTable()));
+              MaterialPageRoute(builder: (BuildContext context) => ChRecord()));
         }),
         CustomListTitle(Icons.person, "سجلات عمال التوصيل", () {
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (BuildContext context) => DTable()));
+              MaterialPageRoute(builder: (BuildContext context) => DRecord()));
         }),
         CustomListTitle(Icons.person, "سجلات الزبائن", () {
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (BuildContext context) => CTable()));
+              MaterialPageRoute(builder: (BuildContext context) => CRecord()));
         }),
         CustomListTitle(Icons.person, "سجلات الوجبات", () {
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (BuildContext context) => MTable()));
+              MaterialPageRoute(builder: (BuildContext context) => MRecord()));
         }),
+        CustomListTitle(
+            Icons.logout,"تسجيل الخروج",
+                () async {
+              await FirebaseAuth.instance.signOut();
+              Fluttertoast.showToast(
+                  msg: "تم تسجيل الخروج بنجاح",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.green,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) => Login()));
+            }
+        ),
         SizedBox(
           height: 50,
         ),

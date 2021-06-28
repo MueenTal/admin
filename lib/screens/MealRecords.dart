@@ -1,98 +1,178 @@
-import 'package:admin/providers/MealRecordsProvider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class MTable extends StatefulWidget {
-  MTable({Key key}) : super(key: key);
-
+class MRecord extends StatefulWidget {
   @override
-  _MTableState createState() => _MTableState();
+  _MRecordState createState() => _MRecordState();
 }
 
-class _MTableState extends State<MTable> {
+class _MRecordState extends State<MRecord> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-        textDirection: TextDirection.rtl,
-        child:
-            Consumer<MealRecordsProvider>(builder: (context, provider, child) {
-          if (provider.isloading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return Scaffold(
-              appBar: AppBar(
-                centerTitle: true,
-                backgroundColor: Colors.orange,
-                title: Text(
-                  "سجلات الوجبات ",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              body: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Table(
-                        columnWidths: const <int, TableColumnWidth>{
-                          0: FixedColumnWidth(100.0),
-                          1: FixedColumnWidth(100.0),
-                          2: FixedColumnWidth(100.0),
-                        },
-                        border: TableBorder.all(
-                            color: Colors.orange,
-                            width: 1.0,
-                            style: BorderStyle.solid),
-                        children: const <TableRow>[
-                          TableRow(
-                            children: <Widget>[
-                              Center(
-                                  child: Text(
-                                'الرقم',
-                                style: TextStyle(fontSize: 20),
-                              )),
-                              Center(
-                                  child: Text(
-                                'الأسم',
-                                style: TextStyle(fontSize: 20),
-                              )),
-                              Center(
-                                  child: Text(
-                                'المكونات',
-                                style: TextStyle(fontSize: 20),
-                              )),
-                            ],
+      textDirection: TextDirection.rtl,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.yellow[800],
+            title: Text(
+              "سجلات الوجبات",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          body: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('items')
+                .snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Something went wrong');
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+
+              return new ListView(
+                children:
+                snapshot.data.documents.map((DocumentSnapshot document) {
+                  return item(
+                      document.data()['name'],
+                      document.data()['price'],
+                      document.data()['tyep'],
+                      document.data()['starts'],
+                      document.data()['docId'],
+                      document.id);
+                }).toList(),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget item(name, price, tyep, rating, docId, id) {
+    return Column(
+      children: [
+        InkWell(
+
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.orange[200],
+                  ),
+                  height: 150,
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(children: [
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          " الاسم",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          child: Center(
+                            child: Text(
+                              name,
+                              style: TextStyle(color: Colors.black, fontSize: 20),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                          TableRow(
-                            children: <Widget>[
-                              Center(
-                                  // child:Text(provider.DataMap[0]['userId'],
-                                  child: Text(
-                                "jbv",
-                                style: TextStyle(fontSize: 18),
-                              )),
-                              Center(
-                                  child: Text(
-                                'B2',
-                                style: TextStyle(fontSize: 18),
-                              )),
-                              Center(
-                                  child: Text(
-                                'B2',
-                                style: TextStyle(fontSize: 18),
-                              )),
-                            ],
+                        ),
+                      ]),
+                      Row(children: [
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "السعر ",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          child: Center(
+                            child: Text(
+                              price.toString(),
+                              style: TextStyle(color: Colors.black, fontSize: 20),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      ]),
+                      Row(children: [
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "القسم",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          child: Center(
+                            child: Text(
+                              tyep.toString(),
+                              style: TextStyle(color: Colors.black, fontSize: 20),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ]),
+                      Row(children: [
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "التقييم",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          child: Center(
+                            child: Text(
+                              rating.toString(),
+                              style: TextStyle(color: Colors.black, fontSize: 20),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ])
+                    ],
                   ),
                 ),
-              ));
-        }));
+              ),
+            ],
+          ),
+        ),
+
+      ],
+    );
   }
 }

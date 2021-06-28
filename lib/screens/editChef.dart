@@ -3,17 +3,31 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class AddChef extends StatefulWidget {
+class EditChef extends StatefulWidget {
+ final String name;
+ final String email;
+ final String phone;
+ final String docId;
+ final String  id;
+
+ EditChef({
+   this.name,
+   this.email,
+   this.phone,
+   this.docId,
+   this.id
+});
   @override
-  _AddUserState createState() => _AddUserState();
+  _EditChefState createState() => _EditChefState();
 }
 
-class _AddUserState extends State<AddChef> {
+class _EditChefState extends State<EditChef> {
   TextEditingController _name = TextEditingController();
   TextEditingController _phone = TextEditingController();
 
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
+
   bool load = false;
   @override
   Widget build(BuildContext context) {
@@ -25,7 +39,7 @@ class _AddUserState extends State<AddChef> {
                   centerTitle: true,
                   backgroundColor: Colors.orange,
                   title: Text(
-                    "إضافة طباخ",
+                    "تعديل طباخ",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -43,6 +57,14 @@ class _AddUserState extends State<AddChef> {
                               SizedBox(
                                 height: 15,
                               ),
+                              Row(children: [
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Text(
+                                  widget.name,
+                                  style: TextStyle(color: Colors.black, fontSize: 20),
+                                ),]),
                               Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: TextField(
@@ -50,6 +72,7 @@ class _AddUserState extends State<AddChef> {
                                     decoration: InputDecoration(
                                       hintText: 'الرجاء ادخال الاسم الخاص بك  ',
                                       labelText: 'الاسم',
+
                                       prefixIcon: Icon(Icons.person),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -59,6 +82,14 @@ class _AddUserState extends State<AddChef> {
                                       ),
                                     )),
                               ),
+                              Row(children: [
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Text(
+                                  widget.email,
+                                  style: TextStyle(color: Colors.black, fontSize: 20),
+                                ),]),
                               Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: TextField(
@@ -75,6 +106,14 @@ class _AddUserState extends State<AddChef> {
                                       ),
                                     )),
                               ),
+                              Row(children: [
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Text(
+                                  'ادخال كلمة المرور الجديدة',
+                                  style: TextStyle(color: Colors.black, fontSize: 20),
+                                ),]),
                               Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: TextField(
@@ -92,6 +131,14 @@ class _AddUserState extends State<AddChef> {
                                       ),
                                     )),
                               ),
+                              Row(children: [
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Text(
+                                  widget.phone,
+                                  style: TextStyle(color: Colors.black, fontSize: 20),
+                                ),]),
                               Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: TextField(
@@ -132,7 +179,7 @@ class _AddUserState extends State<AddChef> {
                                     child: FlatButton(
                                         splashColor: Colors.orange[200],
                                         child: Text(
-                                          "إضافة ",
+                                          "تعديل ",
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 22,
@@ -140,51 +187,46 @@ class _AddUserState extends State<AddChef> {
                                           ),
                                         ),
                                         onPressed: () async {
+
                                           if (_name.text.isEmpty ||
                                               _email.text.isEmpty ||
-                                              _password.text.isEmpty ||
-                                              _phone.text.isEmpty) {
+                                              _phone.text.isEmpty ||_password.text.isEmpty) {
+
                                             Fluttertoast.showToast(
-                                                msg:
-                                                    "يجب عليك ادخال جميع المطاليب  ",
-                                                toastLength: Toast.LENGTH_SHORT,
+                                                msg: " يجب ملئ جميع الحقول المطلوبة",
+                                                toastLength:
+                                                Toast.LENGTH_SHORT,
                                                 gravity: ToastGravity.BOTTOM,
                                                 timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.red,
+                                                backgroundColor: Colors.green,
                                                 textColor: Colors.white,
                                                 fontSize: 16.0);
-                                          } else {
+                                          }
+
+                                          else {
                                             try {
                                               setState(() {
                                                 load = true;
                                               });
-                                              // انشاء الحساب بواسطة الايميل وكلمة المرور
-                                              UserCredential userCredential =
-                                                  await FirebaseAuth.instance
-                                                      .createUserWithEmailAndPassword(
-                                                          email: _email.text,
-                                                          password:
-                                                              _password.text);
-                                              // اضافة المعلومات الخاصة بالشيف الى جدول الشيفات
-
+                                              String id=widget.id;
                                               await FirebaseFirestore.instance
                                                   .collection('chefs')
-                                                  .doc(userCredential.user.uid)
-                                                  .set(({
+                                                  .doc(id)
+                                                  .update(({
                                                     'name': _name.text,
                                                     'email': _email.text,
                                                     'phone': _phone.text,
-                                                    'userId':
-                                                        userCredential.user.uid
-                                                  }));
-                                              // تغيير الاسم الخاص به الى شيف ليتم التحقق عند الدخول بالتطبيق الخاص به
 
-                                              await userCredential.user
-                                                  .updateProfile(
-                                                      displayName: "chef");
+                                                  }));
+                                                User user =
+                                                await FirebaseAuth.instance
+                                                    .currentUser;
+                                                await user.updatePassword(
+                                                    _password.text);
+
 
                                               Fluttertoast.showToast(
-                                                  msg: " تم تسجيل الشيف بنجاح",
+                                                  msg: " تم التعديل بنجاح",
                                                   toastLength:
                                                       Toast.LENGTH_SHORT,
                                                   gravity: ToastGravity.BOTTOM,
@@ -230,19 +272,7 @@ class _AddUserState extends State<AddChef> {
                                                     backgroundColor: Colors.red,
                                                     textColor: Colors.white,
                                                     fontSize: 16.0);
-                                              } else if (e.toString().contains(
-                                                  "email-already-in-use")) {
-                                                Fluttertoast.showToast(
-                                                    msg: "هذا الايميل مستخدم",
-                                                    toastLength:
-                                                        Toast.LENGTH_SHORT,
-                                                    gravity:
-                                                        ToastGravity.BOTTOM,
-                                                    timeInSecForIosWeb: 1,
-                                                    backgroundColor: Colors.red,
-                                                    textColor: Colors.white,
-                                                    fontSize: 16.0);
-                                              } else {
+                                              }  else {
                                                 print("");
                                               }
                                             }

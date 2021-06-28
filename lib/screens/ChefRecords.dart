@@ -1,128 +1,187 @@
-import 'package:admin/providers/ChefRecordsProvider.dart';
+import 'package:admin/screens/editChef.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class ChTable extends StatefulWidget {
-  ChTable({Key key}) : super(key: key);
-
+class ChRecord extends StatefulWidget {
   @override
-  _ChTableState createState() => _ChTableState();
+  _ChRecordState createState() => _ChRecordState();
 }
 
-class _ChTableState extends State<ChTable> {
+class _ChRecordState extends State<ChRecord> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-        textDirection: TextDirection.rtl,
-        child:
-            Consumer<ChefRecordsProvider>(builder: (context, provider, child) {
-          if (provider.isloading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return Scaffold(
-              appBar: AppBar(
-                centerTitle: true,
-                backgroundColor: Colors.orange,
-                title: Text(
-                  "سجلات الطباخين ",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              body: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Table(
-                        columnWidths: const <int, TableColumnWidth>{
-                          0: FixedColumnWidth(50.0),
-                          1: FixedColumnWidth(100.0),
-                          2: FixedColumnWidth(100.0),
-                          3: FixedColumnWidth(100.0),
-                          4: FixedColumnWidth(100.0),
-                          5: FixedColumnWidth(100.0),
-                        },
-                        border: TableBorder.all(
-                            color: Colors.orange,
-                            width: 1.0,
-                            style: BorderStyle.solid),
-                        children: const <TableRow>[
-                          TableRow(
-                            children: <Widget>[
-                              Center(
-                                  child: Text(
-                                'الرقم',
-                                style: TextStyle(fontSize: 20),
-                              )),
-                              Center(
-                                  child: Text(
-                                'الأسم',
-                                style: TextStyle(fontSize: 20),
-                              )),
-                              Center(
-                                  child: Text(
-                                'الهاتف',
-                                style: TextStyle(fontSize: 20),
-                              )),
-                              Center(
-                                  child: Text(
-                                'البريد الألكتروني',
-                                style: TextStyle(fontSize: 20),
-                              )),
-                              Center(
-                                  child: Text(
-                                'تعديل',
-                                style: TextStyle(fontSize: 20),
-                              )),
-                              Center(
-                                  child: Text(
-                                'حذف',
-                                style: TextStyle(fontSize: 20),
-                              )),
-                            ],
+      textDirection: TextDirection.rtl,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.yellow[800],
+            title: Text(
+              "سجلات الطباخين",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          body: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('chefs')
+                .snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Something went wrong');
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+
+              return new ListView(
+                children:
+                snapshot.data.documents.map((DocumentSnapshot document) {
+                  return item(
+                      document.data()['name'],
+                      document.data()['email'],
+                      document.data()['phone'],
+                      document.data()['docId'],
+                      document.id);
+                }).toList(),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget item(name, email, phone, docId, id) {
+    return Column(
+      children: [
+        InkWell(
+
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.orange[200],
+                  ),
+                  height: 150,
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(children: [
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          " الاسم",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          child: Center(
+                            child: Text(
+                              name,
+                              style: TextStyle(color: Colors.black, fontSize: 20),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                          TableRow(
-                            children: <Widget>[
-                              Center(
-                                  // child:Text(provider.DataMap[0]['userId'],
-                                  child: Text(
-                                "jbv",
-                                style: TextStyle(fontSize: 18),
-                              )),
-                              Center(
-                                  child: Text(
-                                'B2',
-                                style: TextStyle(fontSize: 18),
-                              )),
-                              Center(
-                                  child: Text(
-                                'C2',
-                                style: TextStyle(fontSize: 18),
-                              )),
-                              Center(
-                                  child: Text(
-                                'D2',
-                                style: TextStyle(fontSize: 18),
-                              )),
-                              Center(
-                                  child: IconButton(
-                                      icon: Icon(Icons.edit), onPressed: null)),
-                              Center(
-                                  child: IconButton(
-                                      icon: Icon(Icons.delete),
-                                      onPressed: null)),
-                            ],
+                        ),
+                      ]),
+                      Row(children: [
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "الايميل ",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          child: Center(
+                            child: Text(
+                              email,
+                              style: TextStyle(color: Colors.black, fontSize: 20),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      ]),
+                      Row(children: [
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "الهاتف",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          child: Center(
+                            child: Text(
+                              phone.toString(),
+                              style: TextStyle(color: Colors.black, fontSize: 20),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ]),
+
+                    ],
                   ),
                 ),
-              ));
-        }));
+              ),
+            ],
+          ),
+        ),
+        Row(
+          children: [
+            IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () async {
+                  await FirebaseFirestore.instance
+                      .collection('chefs')
+                      .doc(id)
+                      .delete();
+                  Fluttertoast.showToast(
+                      msg: "تم حذف الطباخ بنجاح",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                }),
+            IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: (){Navigator.of(context).push(
+                    MaterialPageRoute(builder: (BuildContext context) => EditChef(
+                        name:name,
+                        email:email,
+                        phone:phone,
+                        docId:docId,
+                        id:id
+                    )));}
+                )
+
+          ],
+        )
+      ],
+    );
   }
 }

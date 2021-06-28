@@ -1,8 +1,10 @@
 import 'package:admin/screens/datailsOrders.dart';
+import 'package:admin/screens/chooseDel.dart';
 import 'package:admin/widgets/drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:admin/screens/homeScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -31,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('card')
-                    .where('confirm', isEqualTo: true)
+                    .where('confirm', isEqualTo: true).where('todel',isEqualTo: false)
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -54,6 +56,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         document.data()['image'],
                         document.data()['address'],
                         document.data()['date'],
+                        document.data()['price'],
+                        document.data()['todel'],
+
+
                       );
                     }).toList(),
                   );
@@ -64,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 
-  Widget item(userName, name, number, id, image, address, date) {
+  Widget item(userName, name, number, id, image, address, date,price,todel) {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -74,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   userName: userName,
                   number: number,
                   address: address,
-                  date: date,
+                  date:date,
                 )));
       },
       child: Column(
@@ -84,9 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: Colors.orange[200],
+                color: Colors.grey[400],
               ),
-              height: 150,
+              height: 200,
               width: MediaQuery.of(context).size.width,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -156,8 +162,79 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                  ])
-                ],
+                  ]),
+                  Row(children: [
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      "العنوان",
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      child: Center(
+                        child: Text(
+                          address,
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ]),
+                  Spacer(),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      height: 40,
+                      width: 60* 1.5,
+                      child:Container(
+                        height: 30,
+                        width:
+                        MediaQuery.of(context).size.width / 3,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(2.0),
+                                bottomRight: Radius.circular(2.0)),
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.orange[100],
+                                  Colors.orange[300]
+                                ])),
+                        child: FlatButton(
+                          child: Text(
+                            " توصيل  ",
+                            style: TextStyle(
+                                color: Colors.black, fontSize: 18),
+                          ),
+                         onPressed: ()async{
+                            Navigator.of(context).push(MaterialPageRoute
+                               (builder: (BuildContext context) => ChooseDel(
+                                  userNameC: userName,
+                                  addressC: address,
+                                  date:date,
+                                  name:name,
+                                  price:price,
+                                  idC: id,
+
+                                )
+                            ));
+                                  await FirebaseFirestore.instance
+                                  .collection('card')
+                               .doc(id)
+                                     .update({
+                                    "todel": true,});
+                            },
+
+                        ),
+                      ),
+                    ),
+                  )],
               ),
             ),
           ),

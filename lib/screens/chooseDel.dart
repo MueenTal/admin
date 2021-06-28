@@ -5,6 +5,27 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ChooseDel extends StatefulWidget {
+
+  final String userNameC;
+  final String addressC;
+  final String  idC;
+  final String date;
+  final String name;
+  final int price;
+
+
+
+  ChooseDel({
+    this.userNameC,
+    this.addressC,
+    this.idC,
+    this.date,
+    this.name,
+    this.price,
+
+
+
+  });
   @override
   _ChooseDelState createState() => _ChooseDelState();
 }
@@ -40,7 +61,6 @@ class _ChooseDelState extends State<ChooseDel> {
                   return item(
                       document.data()['name'],
                       document.data()['address'],
-                      document.data()['docId'],
                       document.id);
                 }).toList(),
               );
@@ -51,11 +71,32 @@ class _ChooseDelState extends State<ChooseDel> {
     );
   }
 
-  Widget item(name,address, docId, id) {
+  Widget item(name,address,id) {
+    int count=1;
     return Column(
       children: [
         InkWell(
 
+          onTap: () async {
+            await FirebaseFirestore.instance
+                .collection('orders')
+                .doc()
+                .set(({
+              'Dname':name ,
+              'Daddress': address,
+              'DId':id,
+              'Cname':widget.userNameC,
+              'Caddress':widget.addressC,
+              'Cid':widget.idC,
+              'date':widget.date,
+              'Mname':widget.name,
+              'price':widget.price,
+              'delevery':false,
+
+            }));
+            Navigator.pop(context);
+
+          },
           child: Column(
             children: [
               Padding(
@@ -124,8 +165,7 @@ class _ChooseDelState extends State<ChooseDel> {
         ),
 
           ],
-        )
-      ],
-    );
+        );
+
   }
 }
